@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Module 4 — PowerPoint Basics | M365 Training</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --accent: #e04b00; --accent-light: rgba(224,75,0,0.12); --accent-border: rgba(224,75,0,0.35); --ms-dark: #0a1628; --card-bg: rgba(255,255,255,0.04); --card-border: rgba(255,255,255,0.09); --text: #e8f0f8; --muted: #7a96b8; --green: #107c10; --green-light: rgba(16,124,16,0.15); }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--ms-dark); color: var(--text); min-height: 100vh; }
+    nav { background: rgba(10,22,40,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,120,212,0.25); position: sticky; top: 0; z-index: 100; padding: 0 24px; }
+    .nav-inner { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; gap: 8px; height: 58px; overflow-x: auto; white-space: nowrap; }
+    .nav-inner::-webkit-scrollbar { height: 0; }
+    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.95rem; color: white; text-decoration: none; margin-right: 12px; flex-shrink: 0; }
+    .nav-logo span { color: #00b7c3; }
+    .nav-link { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; color: var(--muted); text-decoration: none; transition: all 0.2s; flex-shrink: 0; border: 1px solid transparent; }
+    .nav-link:hover { color: white; background: rgba(255,255,255,0.06); }
+    .nav-link.active { color: white; background: var(--accent-light); border-color: var(--accent-border); }
+    .nav-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+    .nav-link.active .nav-dot { background: var(--accent); }
+    .mod-header { background: linear-gradient(135deg, #071530 0%, #1e0e06 100%); padding: 48px 24px 36px; border-bottom: 1px solid rgba(224,75,0,0.2); position: relative; overflow: hidden; }
+    .mod-header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 50% 80% at 0% 50%, rgba(224,75,0,0.1) 0%, transparent 70%); }
+    .mod-header-inner { max-width: 1000px; margin: 0 auto; position: relative; }
+    .mod-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: 20px; padding: 4px 14px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.07em; color: #ff8c55; text-transform: uppercase; margin-bottom: 16px; }
+    .mod-title { font-family: 'Syne', sans-serif; font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 800; margin-bottom: 10px; letter-spacing: -0.02em; line-height: 1.15; }
+    .mod-title em { color: #ff8c55; font-style: normal; }
+    .mod-subtitle { font-size: 1rem; color: var(--muted); max-width: 560px; line-height: 1.6; margin-bottom: 24px; }
+    .mod-meta { display: flex; gap: 24px; flex-wrap: wrap; }
+    .meta-item { display: flex; align-items: center; gap: 7px; font-size: 0.83rem; color: var(--muted); }
+    .meta-item strong { color: var(--text); }
+    .container { max-width: 1000px; margin: 0 auto; padding: 32px 20px 64px; }
+    .progress-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 20px 24px; margin-bottom: 28px; }
+    .prog-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
+    .prog-label { font-weight: 600; font-size: 0.9rem; }
+    .prog-pct { font-family: 'Syne', sans-serif; color: var(--accent); font-size: 1.05rem; }
+    .prog-bar-outer { background: rgba(255,255,255,0.07); border-radius: 6px; height: 8px; overflow: hidden; }
+    .prog-bar-inner { height: 100%; background: linear-gradient(90deg, var(--accent), #ff7a40); border-radius: 6px; width: 0%; transition: width 0.4s; }
+    .prog-note { font-size: 0.8rem; color: var(--muted); margin-top: 8px; }
+    #done-banner { display: none; background: linear-gradient(135deg, #0d5c0d, #107c10); border-radius: 12px; padding: 20px 24px; text-align: center; margin-bottom: 24px; }
+    #done-banner h3 { font-family: 'Syne', sans-serif; font-size: 1.2rem; margin-bottom: 4px; }
+    #done-banner p { font-size: 0.88rem; opacity: 0.85; }
+    .goals-card { background: var(--accent-light); border: 1px solid var(--accent-border); border-left: 3px solid var(--accent); border-radius: 12px; padding: 18px 22px; margin-bottom: 28px; }
+    .goals-card h2 { font-size: 0.75rem; font-weight: 700; color: #ff8c55; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+    .goals-card ul { list-style: none; display: grid; gap: 7px; }
+    .goals-card li { display: flex; gap: 10px; font-size: 0.88rem; color: var(--text); }
+    .goals-card li::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .lesson-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; margin-bottom: 16px; overflow: hidden; transition: border-color 0.2s; }
+    .lesson-card.completed { border-left: 3px solid var(--green); }
+    .lesson-card:hover { border-color: rgba(255,255,255,0.15); }
+    .lesson-header { display: flex; align-items: center; gap: 14px; padding: 18px 22px 14px; cursor: pointer; }
+    .lesson-num { background: var(--accent); color: white; font-weight: 700; font-size: 0.85rem; min-width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .lesson-card.completed .lesson-num { background: var(--green); }
+    .lesson-title-area { flex: 1; }
+    .lesson-time { font-size: 0.72rem; font-weight: 700; color: #ff8c55; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 2px; }
+    .lesson-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; }
+    .expand-icon { color: var(--accent); font-size: 0.9rem; transition: transform 0.25s; flex-shrink: 0; }
+    .lesson-card.open .expand-icon { transform: rotate(180deg); }
+    .lesson-body { display: none; padding: 0 22px 22px; }
+    .lesson-card.open .lesson-body { display: block; }
+    .lesson-desc { font-size: 0.88rem; color: #a0b8d0; line-height: 1.6; margin-bottom: 16px; padding: 12px 14px; background: rgba(255,255,255,0.03); border-radius: 8px; border-left: 2px solid rgba(224,75,0,0.4); }
+    .key-points { margin-bottom: 16px; }
+    .key-points h4 { font-size: 0.72rem; font-weight: 700; color: #ff8c55; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
+    .key-points ul { list-style: none; display: grid; gap: 5px; }
+    .key-points li { font-size: 0.85rem; color: var(--muted); padding-left: 16px; position: relative; }
+    .key-points li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+    .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 8px; overflow: hidden; background: #000; margin-bottom: 12px; }
+    .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+    .video-meta { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--muted); margin-bottom: 14px; flex-wrap: wrap; }
+    .source-badge { background: rgba(224,75,0,0.15); border: 1px solid rgba(224,75,0,0.4); border-radius: 12px; padding: 2px 10px; font-weight: 600; color: #ff8c55; }
+    .video-alt { background: rgba(255,184,0,0.08); border: 1px solid rgba(255,184,0,0.25); border-radius: 6px; padding: 10px 14px; font-size: 0.81rem; color: #c9a000; margin-bottom: 14px; }
+    .video-alt a { color: #60aaff; font-weight: 600; }
+    .complete-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: rgba(16,124,16,0.08); border: 1px solid rgba(16,124,16,0.25); border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+    .complete-row:hover { background: rgba(16,124,16,0.15); }
+    .complete-row.checked { background: var(--green-light); border-color: rgba(16,124,16,0.5); }
+    .complete-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--green); cursor: pointer; flex-shrink: 0; }
+    .complete-row label { font-size: 0.88rem; font-weight: 600; color: #7ac97a; cursor: pointer; }
+    .complete-row.checked label { color: #4caf50; }
+    .kcheck-card { background: rgba(100,80,200,0.08); border: 1px solid rgba(100,80,200,0.25); border-radius: 12px; padding: 20px 22px; margin-bottom: 16px; }
+    .kcheck-q { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: 0.88rem; }
+    .kcheck-q p { font-weight: 700; color: #9b8af0; margin-bottom: 3px; font-size: 0.78rem; }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">M365 <span>Training</span></a>
+    <a href="index.html" class="nav-link"><span class="nav-dot"></span>Home</a>
+    <a href="module1.html" class="nav-link"><span class="nav-dot"></span>1 · Outlook Email</a>
+    <a href="module2.html" class="nav-link"><span class="nav-dot"></span>2 · Excel</a>
+    <a href="module3.html" class="nav-link"><span class="nav-dot"></span>3 · Word</a>
+    <a href="module4.html" class="nav-link active"><span class="nav-dot"></span>4 · PowerPoint</a>
+    <a href="module5.html" class="nav-link"><span class="nav-dot"></span>5 · M365 Sharing</a>
+    <a href="module6.html" class="nav-link"><span class="nav-dot"></span>6 · Calendar</a>
+  </div>
+</nav>
+
+<div class="mod-header">
+  <div class="mod-header-inner">
+    <div class="mod-badge">📑 Module 04</div>
+    <div class="mod-title">PowerPoint: <em>Clean Slides</em> That Communicate</div>
+    <div class="mod-subtitle">Build slides that support the speaker — not overwhelm the audience. One idea per slide, clear layouts, and confident presenting.</div>
+    <div class="mod-meta">
+      <div class="meta-item">⏱ <strong>~40 min</strong></div>
+      <div class="meta-item">🎬 <strong>5 lessons</strong></div>
+      <div class="meta-item">🎯 Goal: Readable slides + confident presenting</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="progress-card">
+    <div class="prog-row"><span class="prog-label">Module Progress</span><span class="prog-pct" id="pct-label">0%</span></div>
+    <div class="prog-bar-outer"><div class="prog-bar-inner" id="progress-bar"></div></div>
+    <p class="prog-note" id="progress-note">0 of 5 lessons completed</p>
+  </div>
+  <div id="done-banner"><h3>🎉 Module 4 Complete!</h3><p>Your slides will be clearer, cleaner, and more persuasive.</p></div>
+
+  <div class="goals-card">
+    <h2>Learning Goals</h2>
+    <ul>
+      <li>Use built-in layouts and placeholders for consistent slides</li>
+      <li>Apply slide design rules: one idea, short text, consistent alignment</li>
+      <li>Insert and crop images; add alt text for accessibility</li>
+      <li>Use speaker notes as your script — not the slide text</li>
+      <li>Present using Presenter View and rehearse timings</li>
+    </ul>
+  </div>
+
+  <div class="lesson-card" id="card-1">
+    <div class="lesson-header" onclick="toggleCard(1)">
+      <div class="lesson-num">1</div>
+      <div class="lesson-title-area">
+        <div class="lesson-time">Layouts & Design Rules</div>
+        <div class="lesson-title">Use Built-in Layouts + Slide Design Fundamentals</div>
+      </div>
+      <div class="expand-icon">▼</div>
+    </div>
+    <div class="lesson-body">
+      <div class="lesson-desc">Built-in slide layouts ensure consistent spacing and fonts automatically. Combined with a few design rules — one idea per slide, short text, consistent alignment — your decks will look instantly more professional.</div>
+      <div class="key-points"><h4>Key Takeaways</h4><ul>
+        <li>Right-click a slide → Layout to choose the right template</li>
+        <li>One idea per slide: if you can't say it in 5 words, it's two slides</li>
+        <li>Bullet points should be triggers, not paragraphs</li>
+        <li>Consistency beats creativity — same fonts, same spacing throughout</li>
+      </ul></div>
+      <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/zcITARGg3CQ?start=0" title="Top 15 PowerPoint Tips – Kevin Stratvert" allowfullscreen loading="lazy"></iframe></div>
+      <div class="video-meta"><span class="source-badge">Kevin Stratvert (ex-Microsoft)</span><span>Top 15 PowerPoint Tips & Tricks — layouts, alignment, design</span></div>
+      <div class="video-alt">💡 <strong>Direct link:</strong> <a href="https://www.youtube.com/watch?v=zcITARGg3CQ" target="_blank" rel="noopener">Top 15 PowerPoint Tips — Kevin Stratvert</a></div>
+      <div class="complete-row" id="row-1" onclick="toggleCheck(1)"><input type="checkbox" id="chk-1" onchange="toggleCheck(1)"><label for="chk-1">✅ I understand slide layouts and core design rules</label></div>
+    </div>
+  </div>
+
+  <div class="lesson-card" id="card-2">
+    <div class="lesson-header" onclick="toggleCard(2)">
+      <div class="lesson-num">2</div>
+      <div class="lesson-title-area">
+        <div class="lesson-time">Images & Alignment</div>
+        <div class="lesson-title">Insert, Crop & Align Images and Objects</div>
+      </div>
+      <div class="expand-icon">▼</div>
+    </div>
+    <div class="lesson-body">
+      <div class="lesson-desc">Images make slides more memorable — but only when placed well. Learn how to insert images, crop them to size, add alt text for accessibility, and use alignment tools to snap objects into perfect position.</div>
+      <div class="key-points"><h4>Key Takeaways</h4><ul>
+        <li>Insert → Pictures → This Device or Stock Images</li>
+        <li>Double-click an image to enter Crop mode; drag handles to trim</li>
+        <li>Select multiple objects → Format → Align → distribute evenly</li>
+        <li>Right-click image → Edit Alt Text for accessibility compliance</li>
+      </ul></div>
+      <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/zcITARGg3CQ?start=400" title="PowerPoint Images Alignment and Cropping – Kevin Stratvert" allowfullscreen loading="lazy"></iframe></div>
+      <div class="video-meta"><span class="source-badge">Kevin Stratvert (ex-Microsoft)</span><span>Images, shapes & alignment section</span></div>
+      <div class="video-alt">💡 <strong>Direct link:</strong> <a href="https://www.youtube.com/watch?v=zcITARGg3CQ&t=400s" target="_blank" rel="noopener">PowerPoint image & alignment tips — Kevin Stratvert</a></div>
+      <div class="complete-row" id="row-2" onclick="toggleCheck(2)"><input type="checkbox" id="chk-2" onchange="toggleCheck(2)"><label for="chk-2">✅ I can insert, crop, and align images and objects on slides</label></div>
+    </div>
+  </div>
+
+  <div class="lesson-card" id="card-3">
+    <div class="lesson-header" onclick="toggleCard(3)">
+      <div class="lesson-num">3</div>
+      <div class="lesson-title-area">
+        <div class="lesson-time">Speaker Notes</div>
+        <div class="lesson-title">Speaker Notes vs Slide Text — and How to Use Both</div>
+      </div>
+      <div class="expand-icon">▼</div>
+    </div>
+    <div class="lesson-body">
+      <div class="lesson-desc">The #1 mistake in presentations: putting your script on the slides. Speaker notes exist so you can write detailed talking points while keeping slides clean and minimal for the audience.</div>
+      <div class="key-points"><h4>Key Takeaways</h4><ul>
+        <li>Notes panel = below the slide in Normal view; click to expand</li>
+        <li>Slides = what the audience sees. Notes = what you say</li>
+        <li>You can view notes privately during Presenter View while audience sees only slides</li>
+        <li>File → Print → Print Layout → Notes Pages to print with your script</li>
+      </ul></div>
+      <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/zcITARGg3CQ?start=650" title="PowerPoint Speaker Notes – Kevin Stratvert" allowfullscreen loading="lazy"></iframe></div>
+      <div class="video-meta"><span class="source-badge">Kevin Stratvert (ex-Microsoft)</span><span>Speaker notes & presenting section</span></div>
+      <div class="video-alt">💡 <strong>Direct link:</strong> <a href="https://www.youtube.com/watch?v=zcITARGg3CQ&t=650s" target="_blank" rel="noopener">PowerPoint notes & presenting tips — Kevin Stratvert</a></div>
+      <div class="complete-row" id="row-3" onclick="toggleCheck(3)"><input type="checkbox" id="chk-3" onchange="toggleCheck(3)"><label for="chk-3">✅ I understand when to put content in notes vs on the slide</label></div>
+    </div>
+  </div>
+
+  <div class="lesson-card" id="card-4">
+    <div class="lesson-header" onclick="toggleCard(4)">
+      <div class="lesson-num">4</div>
+      <div class="lesson-title-area">
+        <div class="lesson-time">Presenting</div>
+        <div class="lesson-title">Presenter View & Rehearse Timings</div>
+      </div>
+      <div class="expand-icon">▼</div>
+    </div>
+    <div class="lesson-body">
+      <div class="lesson-desc">Presenter View gives you your notes, a slide preview, and a timer — all on your screen while the audience sees only the presentation. Rehearse Timings helps you stay on schedule during timed talks.</div>
+      <div class="key-points"><h4>Key Takeaways</h4><ul>
+        <li>Slide Show → Presenter View (or check "Use Presenter View" before presenting)</li>
+        <li>The timer shows elapsed time — glance at it without pausing</li>
+        <li>Slide Show → Rehearse Timings records how long you spend on each slide</li>
+        <li>Press B during a presentation to black out the screen (regain audience focus)</li>
+      </ul></div>
+      <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/VWUxQ3S8S_A?start=8" title="PowerPoint Presenter View and Presenting – Kevin Stratvert" allowfullscreen loading="lazy"></iframe></div>
+      <div class="video-meta"><span class="source-badge">Kevin Stratvert (ex-Microsoft)</span><span>How to Present in PowerPoint — Presenter View & recording</span></div>
+      <div class="video-alt">💡 <strong>Direct link:</strong> <a href="https://www.youtube.com/watch?v=VWUxQ3S8S_A&t=8s" target="_blank" rel="noopener">How to Present in PowerPoint — Kevin Stratvert</a></div>
+      <div class="complete-row" id="row-4" onclick="toggleCheck(4)"><input type="checkbox" id="chk-4" onchange="toggleCheck(4)"><label for="chk-4">✅ I can present using Presenter View and use Rehearse Timings</label></div>
+    </div>
+  </div>
+
+  <div class="lesson-card" id="card-5">
+    <div class="lesson-header" onclick="toggleCard(5)">
+      <div class="lesson-num" style="background:#6c5ce7;">✓</div>
+      <div class="lesson-title-area">
+        <div class="lesson-time">Knowledge Check</div>
+        <div class="lesson-title">5 Questions to Confirm Your Learning</div>
+      </div>
+      <div class="expand-icon">▼</div>
+    </div>
+    <div class="lesson-body">
+      <div class="kcheck-card">
+        <div class="kcheck-q"><p>Question 1</p>What's the benefit of using built-in slide layouts?</div>
+        <div class="kcheck-q"><p>Question 2</p>Where do speaker notes go, and who can see them during a presentation?</div>
+        <div class="kcheck-q"><p>Question 3</p>Name one design rule that makes slides easier for an audience to read.</div>
+        <div class="kcheck-q"><p>Question 4</p>How do you crop an image in PowerPoint?</div>
+        <div class="kcheck-q" style="margin-bottom:0"><p>Question 5</p>What is Presenter View and why is it useful?</div>
+      </div>
+      <div class="complete-row" id="row-5" onclick="toggleCheck(5)"><input type="checkbox" id="chk-5" onchange="toggleCheck(5)"><label for="chk-5">✅ I can answer all 5 knowledge check questions confidently</label></div>
+    </div>
+  </div>
+
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:32px; flex-wrap:wrap; gap:12px;">
+    <a href="module3.html" style="color:var(--muted); text-decoration:none; font-size:0.88rem;">← Word Basics</a>
+    <a href="module5.html" style="display:inline-flex; align-items:center; gap:8px; background:#8764b8; color:white; padding:10px 22px; border-radius:8px; text-decoration:none; font-weight:600; font-size:0.9rem;">Next: M365 Sharing →</a>
+  </div>
+</div>
+
+<script>
+  const MOD_KEY = 'm4'; const TOTAL = 5;
+  function toggleCard(n) { document.getElementById('card-'+n).classList.toggle('open'); }
+  function toggleCheck(n) { const chk = document.getElementById('chk-'+n); const row = document.getElementById('row-'+n); const card = document.getElementById('card-'+n); if (event.target !== chk) chk.checked = !chk.checked; row.classList.toggle('checked', chk.checked); card.classList.toggle('completed', chk.checked); updateProgress(); saveState(); }
+  function updateProgress() { let count = 0; for (let i = 1; i <= TOTAL; i++) { if (document.getElementById('chk-'+i).checked) count++; } const pct = Math.round((count/TOTAL)*100); document.getElementById('progress-bar').style.width = pct+'%'; document.getElementById('pct-label').textContent = pct+'%'; document.getElementById('progress-note').textContent = count+' of '+TOTAL+' lessons completed'; document.getElementById('done-banner').style.display = count === TOTAL ? 'block' : 'none'; }
+  function saveState() { const state = {}; for (let i = 1; i <= TOTAL; i++) state['chk-'+i] = document.getElementById('chk-'+i).checked; try { localStorage.setItem(MOD_KEY+'-training', JSON.stringify(state)); } catch(e){} }
+  function loadState() { try { const raw = localStorage.getItem(MOD_KEY+'-training'); if (!raw) return; const state = JSON.parse(raw); for (let i = 1; i <= TOTAL; i++) { if (state['chk-'+i]) { document.getElementById('chk-'+i).checked = true; document.getElementById('row-'+i).classList.add('checked'); document.getElementById('card-'+i).classList.add('completed'); } } } catch(e){} updateProgress(); }
+  function openFirstIncomplete() { for (let i = 1; i <= TOTAL; i++) { if (!document.getElementById('chk-'+i).checked) { document.getElementById('card-'+i).classList.add('open'); return; } } }
+  window.addEventListener('DOMContentLoaded', () => { loadState(); openFirstIncomplete(); });
+</script>
+</body>
+</html>

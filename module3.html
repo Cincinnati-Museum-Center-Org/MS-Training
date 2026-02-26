@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Module 3 — Word Basics | M365 Training</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --accent: #2b7de9; --accent-light: rgba(43,125,233,0.13); --accent-border: rgba(43,125,233,0.35); --ms-dark: #0a1628; --card-bg: rgba(255,255,255,0.04); --card-border: rgba(255,255,255,0.09); --text: #e8f0f8; --muted: #7a96b8; --green: #107c10; --green-light: rgba(16,124,16,0.15); }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--ms-dark); color: var(--text); min-height: 100vh; }
+    nav { background: rgba(10,22,40,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,120,212,0.25); position: sticky; top: 0; z-index: 100; padding: 0 24px; }
+    .nav-inner { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; gap: 8px; height: 58px; overflow-x: auto; white-space: nowrap; }
+    .nav-inner::-webkit-scrollbar { height: 0; }
+    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.95rem; color: white; text-decoration: none; margin-right: 12px; flex-shrink: 0; }
+    .nav-logo span { color: #00b7c3; }
+    .nav-link { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; color: var(--muted); text-decoration: none; transition: all 0.2s; flex-shrink: 0; border: 1px solid transparent; }
+    .nav-link:hover { color: white; background: rgba(255,255,255,0.06); }
+    .nav-link.active { color: white; background: var(--accent-light); border-color: var(--accent-border); }
+    .nav-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+    .nav-link.active .nav-dot { background: var(--accent); }
+    .mod-header { background: linear-gradient(135deg, #071530 0%, #0c1840 100%); padding: 48px 24px 36px; border-bottom: 1px solid rgba(43,125,233,0.2); position: relative; overflow: hidden; }
+    .mod-header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 50% 80% at 0% 50%, rgba(43,125,233,0.1) 0%, transparent 70%); }
+    .mod-header-inner { max-width: 1000px; margin: 0 auto; position: relative; }
+    .mod-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: 20px; padding: 4px 14px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.07em; color: #7ab5f5; text-transform: uppercase; margin-bottom: 16px; }
+    .mod-title { font-family: 'Syne', sans-serif; font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 800; margin-bottom: 10px; letter-spacing: -0.02em; line-height: 1.15; }
+    .mod-title em { color: #7ab5f5; font-style: normal; }
+    .mod-subtitle { font-size: 1rem; color: var(--muted); max-width: 560px; line-height: 1.6; margin-bottom: 24px; }
+    .mod-meta { display: flex; gap: 24px; flex-wrap: wrap; }
+    .meta-item { display: flex; align-items: center; gap: 7px; font-size: 0.83rem; color: var(--muted); }
+    .meta-item strong { color: var(--text); }
+    .container { max-width: 1000px; margin: 0 auto; padding: 32px 20px 64px; }
+    .progress-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 20px 24px; margin-bottom: 28px; }
+    .prog-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
+    .prog-label { font-weight: 600; font-size: 0.9rem; }
+    .prog-pct { font-family: 'Syne', sans-serif; color: var(--accent); font-size: 1.05rem; }
+    .prog-bar-outer { background: rgba(255,255,255,0.07); border-radius: 6px; height: 8px; overflow: hidden; }
+    .prog-bar-inner { height: 100%; background: linear-gradient(90deg, var(--accent), #60aaff); border-radius: 6px; width: 0%; transition: width 0.4s; }
+    .prog-note { font-size: 0.8rem; color: var(--muted); margin-top: 8px; }
+    #done-banner { display: none; background: linear-gradient(135deg, #0d5c0d, #107c10); border-radius: 12px; padding: 20px 24px; text-align: center; margin-bottom: 24px; }
+    #done-banner h3 { font-family: 'Syne', sans-serif; font-size: 1.2rem; margin-bottom: 4px; }
+    #done-banner p { font-size: 0.88rem; opacity: 0.85; }
+    .goals-card { background: var(--accent-light); border: 1px solid var(--accent-border); border-left: 3px solid var(--accent); border-radius: 12px; padding: 18px 22px; margin-bottom: 28px; }
+    .goals-card h2 { font-size: 0.75rem; font-weight: 700; color: #7ab5f5; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+    .goals-card ul { list-style: none; display: grid; gap: 7px; }
+    .goals-card li { display: flex; gap: 10px; font-size: 0.88rem; color: var(--text); }
+    .goals-card li::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .lesson-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; margin-bottom: 16px; overflow: hidden; transition: border-color 0.2s; }
+    .lesson-card.completed { border-left: 3px solid var(--green); }
+    .lesson-card:hover { border-color: rgba(255,255,255,0.15); }
+    .lesson-header { display: flex; align-items: center; gap: 14px; padding: 18px 22px 14px; cursor: pointer; }
+    .lesson-num { background: var(--accent); color: white; font-weight: 700; font-size: 0.85rem; min-width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .lesson-card.completed .lesson-num { background: var(--green); }
+    .lesson-title-area { flex: 1; }
+    .lesson-time { font-size: 0.72rem; font-weight: 700; color: #7ab5f5; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 2px; }
+    .lesson-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; }
+    .expand-icon { color: var(--accent); font-size: 0.9rem; transition: transform 0.25s; flex-shrink: 0; }
+    .lesson-card.open .expand-icon { transform: rotate(180deg); }
+    .lesson-body { display: none; padding: 0 22px 22px; }
+    .lesson-card.open .lesson-body { display: block; }
+    .lesson-desc { font-size: 0.88rem; color: #a0b8d0; line-height: 1.6; margin-bottom: 16px; padding: 12px 14px; background: rgba(255,255,255,0.03); border-radius: 8px; border-left: 2px solid rgba(43,125,233,0.4); }
+    .key-points { margin-bottom: 16px; }
+    .key-points h4 { font-size: 0.72rem; font-weight: 700; color: #7ab5f5; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
+    .key-points ul { list-style: none; display: grid; gap: 5px; }
+    .key-points li { font-size: 0.85rem; color: var(--muted); padding-left: 16px; position: relative; }
+    .key-points li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+    .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 8px; overflow: hidden; background: #000; margin-bottom: 12px; }
+    .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+    .video-meta { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--muted); margin-bottom: 14px; flex-wrap: wrap; }
+    .source-badge { background: rgba(43,125,233,0.15); border: 1px solid rgba(43,125,233,0.4); border-radius: 12px; padding: 2px 10px; font-weight: 600; color: #7ab5f5; }
+    .video-alt { background: rgba(255,184,0,0.08); border: 1px solid rgba(255,184,0,0.25); border-radius: 6px; padding: 10px 14px; font-size: 0.81rem; color: #c9a000; margin-bottom: 14px; }
+    .video-alt a { color: #60aaff; font-weight: 600; }
+    .complete-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: rgba(16,124,16,0.08); border: 1px solid rgba(16,124,16,0.25); border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+    .complete-row:hover { background: rgba(16,124,16,0.15); }
+    .complete-row.checked { background: var(--green-light); border-color: rgba(16,124,16,0.5); }
+    .complete-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--green); cursor: pointer; flex-shrink: 0; }
+    .complete-row label { font-size: 0.88rem; font-weight: 600; color: #7ac97a; cursor: pointer; }
+    .complete-row.checked label { color: #4caf50; }
+    .kcheck-card { background: rgba(100,80,200,0.08); border: 1px solid rgba(100,80,200,0.25); border-radius: 12px; padding: 20px 22px; margin-bottom: 16px; }
+    .kcheck-q { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: 0.88rem; }
+    .kcheck-q p { font-weight: 700; color: #9b8af0; margin-bottom: 3px; font-size: 0.78rem; }
+    @media (max-width: 600px) { .mod-header { padding: 32px 16px 24px; } .container { padding: 20px 12px 48px; } }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">M365 <span>Training</span></a>
+    <a href="index.html" class="nav-link"><span class="nav-dot"></span>Home</a>
+    <a href="module1.html" class="nav-link"><span class="nav-dot"></span>1 · Outlook Email</a>
+    <a href="module2.html" class="nav-link"><span class="nav-dot"></span>2 · Excel</a>
+    <a href="module3.html" class="nav-link active"><span class="nav-dot"></span>3 · Word</a>
+    <a href="module4.html" class="nav-link"><span class="nav-dot"></span>4 · PowerPoint</a>
+    <a href="module5.html" class="nav-link"><span class="nav-dot"></span>5 · M365 Sharing</a>
+    <a href="module6.html" class="nav-link"><span class="nav-dot"></span>6 · Calendar</a>
+  </div>
+</nav>
+
+<div class="mod-header">
+  <div class="mod-header-inner">
+    <div class="mod-badge">📝 Module 03</div>
+    <div class="mod-title">Word: <em>Clean Docs</em> & Collaboration</div>
+    <div class="mod-subtitle">Create consistent, professional documents and collaborate without version chaos using Styles, Track Changes, and cloud saving.</div>
+    <div class="mod-meta">
+      <div class="meta-item">⏱ <strong>~40 min</strong></div>
+      <div class="meta-item">🎬 <strong>5 lessons</strong></div>
+      <div class="meta-item">🎯 Goal: Consistent documents + clean collaboration</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="progress-card">
+    <div class="prog-row"><span class="prog-label">Module Progress</span><span class="prog-pct" id="pct-label">0%</span></div>
+    <div class="prog-bar-outer"><div class="prog-bar-inner" id="progress-bar"></div></div>
+    <p class="prog-note" id="progress-note">0 of 5 lessons completed</p>
+  </div>
+  <div id="done-banner"><h3>🎉 Module 3 Complete!</h3><p>Your Word documents will be cleaner and more consistent from here on.</p></div>
+
+  <div class="goals-card">
+    <h2>Learning Goals</h2>
+    <ul>
+      <li>Use Heading Styles instead of manual formatting for consistency</li>
+      <li>Set page layout: margins, line spacing, and lists/tables</li>
+      <li>Add headers, footers, and page numbers</li>
+      <li>Use Track Changes and Comments for clear collaboration</li>
+      <li>Save to OneDrive/SharePoint to avoid version conflicts</li>
+    </ul>
+  </div>
+
+  <div class="lesson-card" id="card-1">
+    <div class="lesson-header" onclick="toggleCard(1)">
+      <div class="lesson-num">1</div>
+      <div class="lesson-title-area">
+        <div class="lesson-time">Styles & Layout</div>
+        <div class="lesson-title">Use Styles Instead of Manual Formatting</div>
+      </div>
+      <div class="expand-icon">▼</div>
+    </div>
+    <div class="lesson-body">
+      <div class="lesson-desc">Heading 1, Heading 2, and Normal styles keep your document visually consistent and enable automatic Table of Contents. Manual formatting (bold, font size) looks consistent now but breaks down when you make changes.</div>
+      <div class="key-points"><h4>Key Takeaways</h4><ul>
+        <li>Apply Heading 1 for main sections, Heading 2 for sub-sections</li>
+        <li>Modify a Style once and it updates everywhere — huge time saver</li>
+        <li>Consistent styles also improve accessibility for screen readers</li>
+      </ul></div>
+      <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/5Im87VPQZ_0?start=0" title="Microsoft Word Tutorial 2024 – Kevin Stratvert" allowfullscreen loading="lazy"></iframe></div>
+      <div class="video-meta"><span class="source-badge">Kevin Stratvert (ex-Microsoft)</span><span>Microsoft Word Tutorial 2024 — Styles, layout, formatting</span></div>
+      <div class="video-alt">💡 <strong>Direct link:</strong> <a href="https://www.youtube.com/watch?v=5Im87VPQZ_0" target="_blank" rel="noopener">Microsoft Word Tutorial 2024 — Kevin Stratvert</a></div>
+      <div class="complete-row" id="row-1" onclick="toggleCheck(1)"><input type="checkbox" id="chk-1" onchange="toggleCheck(1)"><label for="chk-1">✅ I can apply Heading Styles and understand why they matter</label></div>
+    </div>
+  </div>
+
+  <div class="lesson-card" id="card-2">
+    <div class="lesson-header" onclick="toggleCard(2)">
+      <div class="lesson-num">2</div>
+      <div class="lesson-title-area">
+        <div class="lesson-time">Layout & Structure</div>
+        <div class="lesson-title">Page Layout, Lists, Tables & Page Numbers</div>
+      </div>
+      <div class="expand-icon">▼</div>
+    </div>
+    <div class="lesson-body">
+      <div class="lesson-desc">Good document structure makes reading effortless. Master page margins, line spacing, bulleted and numbered lists, simple tables for data, headers/footers, and automatic page numbers.</div>
+      <div class="key-points"><h4>Key Takeaways</h4><ul>
+        <li>Layout → Margins: 1" standard for most professional documents</li>
+        <li>Line spacing 1.15 or 1.5 is easier to read than single-spaced</li>
+        <li>Tables work better than tab-spaced columns for structured info</li>
+        <li>Insert → Page Number → choose position to add automatic page numbers</li>
+      </ul></div>
+      <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/5Im87VPQZ_0?start=480" title="Word Page Layout and Tables 2024" allowfullscreen loading="lazy"></iframe></div>
+      <div class="video-meta"><span class="source-badge">Kevin Stratvert (ex-Microsoft)</span><span>Page layout, tables & structure section</span></div>
+      <div class="video-alt">💡 <strong>Direct link:</strong> <a href="https://www.youtube.com/watch?v=5Im87VPQZ_0&t=480s" target="_blank" rel="noopener">Word layout & tables — Kevin Stratvert</a></div>
+      <div class="complete-row" id="row-2" onclick="toggleCheck(2)"><input type="checkbox" id="chk-2" onchange="toggleCheck(2)"><label for="chk-2">✅ I can set page layout, add lists, tables, and page numbers</label></div>
+    </div>
+  </div>
+
+  <div class="lesson-card" id="card-3">
+    <div class="lesson-header" onclick="toggleCard(3)">
+      <div class="lesson-num">3</div>
+      <div class="lesson-title-area">
+        <div class="lesson-time">Track Changes & Comments</div>
+        <div class="lesson-title">Collaborate Without Confusion</div>
+      </div>
+      <div class="expand-icon">▼</div>
+    </div>
+    <div class="lesson-body">
+      <div class="lesson-desc">Track Changes records every edit so reviewers can see what changed. Comments let you ask questions or flag things without editing the document itself. Together they make document reviews clear and professional.</div>
+      <div class="key-points"><h4>Key Takeaways</h4><ul>
+        <li>Review → Track Changes: turns on red markup for every edit</li>
+        <li>Accept or Reject changes one at a time or all at once</li>
+        <li>Comments: select text → Review → New Comment (or Ctrl+Alt+M)</li>
+        <li>Comments = suggestions/questions; Track Changes = actual edits</li>
+      </ul></div>
+      <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/LxgheItBIzQ?start=0" title="Top 15 Word Tips including Track Changes – Kevin Stratvert" allowfullscreen loading="lazy"></iframe></div>
+      <div class="video-meta"><span class="source-badge">Kevin Stratvert (ex-Microsoft)</span><span>Top 15 Microsoft Word Tips & Tricks — includes collaboration features</span></div>
+      <div class="video-alt">💡 <strong>Direct link:</strong> <a href="https://www.youtube.com/watch?v=LxgheItBIzQ" target="_blank" rel="noopener">Top 15 Word Tips — Kevin Stratvert</a></div>
+      <div class="complete-row" id="row-3" onclick="toggleCheck(3)"><input type="checkbox" id="chk-3" onchange="toggleCheck(3)"><label for="chk-3">✅ I can use Track Changes and Comments to collaborate on documents</label></div>
+    </div>
+  </div>
+
+  <div class="lesson-card" id="card-4">
+    <div class="lesson-header" onclick="toggleCard(4)">
+      <div class="lesson-num">4</div>
+      <div class="lesson-title-area">
+        <div class="lesson-time">Version Control</div>
+        <div class="lesson-title">Saving to OneDrive/SharePoint to Avoid Version Conflicts</div>
+      </div>
+      <div class="expand-icon">▼</div>
+    </div>
+    <div class="lesson-body">
+      <div class="lesson-desc">Emailing Word documents back and forth creates "Final_v3_REAL_final2.docx" chaos. Saving to OneDrive or SharePoint means one version, real-time co-authoring, and automatic version history.</div>
+      <div class="key-points"><h4>Key Takeaways</h4><ul>
+        <li>File → Save As → OneDrive (or SharePoint) — one click to save in the cloud</li>
+        <li>Multiple people can edit the same document at the same time</li>
+        <li>File → Info → Version History to see and restore older versions</li>
+        <li>Share a link, not an attachment — always the latest version</li>
+      </ul></div>
+      <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/Cw6a3b5QoAs?start=27" title="Microsoft Word Tutorial – Kevin Stratvert (saving and sharing)" allowfullscreen loading="lazy"></iframe></div>
+      <div class="video-meta"><span class="source-badge">Kevin Stratvert (ex-Microsoft)</span><span>Microsoft Word Tutorial — saving, sharing, and OneDrive integration</span></div>
+      <div class="video-alt">💡 <strong>Direct link:</strong> <a href="https://www.youtube.com/watch?v=Cw6a3b5QoAs&t=27s" target="_blank" rel="noopener">Microsoft Word Tutorial — Kevin Stratvert</a></div>
+      <div class="complete-row" id="row-4" onclick="toggleCheck(4)"><input type="checkbox" id="chk-4" onchange="toggleCheck(4)"><label for="chk-4">✅ I know how to save to OneDrive and use version history</label></div>
+    </div>
+  </div>
+
+  <div class="lesson-card" id="card-5">
+    <div class="lesson-header" onclick="toggleCard(5)">
+      <div class="lesson-num" style="background:#6c5ce7;">✓</div>
+      <div class="lesson-title-area">
+        <div class="lesson-time">Knowledge Check</div>
+        <div class="lesson-title">5 Questions to Confirm Your Learning</div>
+      </div>
+      <div class="expand-icon">▼</div>
+    </div>
+    <div class="lesson-body">
+      <div class="kcheck-card">
+        <div class="kcheck-q"><p>Question 1</p>Why are Styles more useful than manually bolding/resizing text?</div>
+        <div class="kcheck-q"><p>Question 2</p>What's the difference between a Comment and a Tracked Change?</div>
+        <div class="kcheck-q"><p>Question 3</p>Where should shared documents be saved to avoid version conflicts?</div>
+        <div class="kcheck-q"><p>Question 4</p>When is a table more useful than a bulleted list in Word?</div>
+        <div class="kcheck-q" style="margin-bottom:0"><p>Question 5</p>How do you insert automatic page numbers?</div>
+      </div>
+      <div class="complete-row" id="row-5" onclick="toggleCheck(5)"><input type="checkbox" id="chk-5" onchange="toggleCheck(5)"><label for="chk-5">✅ I can answer all 5 knowledge check questions confidently</label></div>
+    </div>
+  </div>
+
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:32px; flex-wrap:wrap; gap:12px;">
+    <a href="module2.html" style="color:var(--muted); text-decoration:none; font-size:0.88rem;">← Excel Basics</a>
+    <a href="module4.html" style="display:inline-flex; align-items:center; gap:8px; background:#e04b00; color:white; padding:10px 22px; border-radius:8px; text-decoration:none; font-weight:600; font-size:0.9rem;">Next: PowerPoint →</a>
+  </div>
+</div>
+
+<script>
+  const MOD_KEY = 'm3'; const TOTAL = 5;
+  function toggleCard(n) { document.getElementById('card-'+n).classList.toggle('open'); }
+  function toggleCheck(n) { const chk = document.getElementById('chk-'+n); const row = document.getElementById('row-'+n); const card = document.getElementById('card-'+n); if (event.target !== chk) chk.checked = !chk.checked; row.classList.toggle('checked', chk.checked); card.classList.toggle('completed', chk.checked); updateProgress(); saveState(); }
+  function updateProgress() { let count = 0; for (let i = 1; i <= TOTAL; i++) { if (document.getElementById('chk-'+i).checked) count++; } const pct = Math.round((count/TOTAL)*100); document.getElementById('progress-bar').style.width = pct+'%'; document.getElementById('pct-label').textContent = pct+'%'; document.getElementById('progress-note').textContent = count+' of '+TOTAL+' lessons completed'; document.getElementById('done-banner').style.display = count === TOTAL ? 'block' : 'none'; }
+  function saveState() { const state = {}; for (let i = 1; i <= TOTAL; i++) state['chk-'+i] = document.getElementById('chk-'+i).checked; try { localStorage.setItem(MOD_KEY+'-training', JSON.stringify(state)); } catch(e){} }
+  function loadState() { try { const raw = localStorage.getItem(MOD_KEY+'-training'); if (!raw) return; const state = JSON.parse(raw); for (let i = 1; i <= TOTAL; i++) { if (state['chk-'+i]) { document.getElementById('chk-'+i).checked = true; document.getElementById('row-'+i).classList.add('checked'); document.getElementById('card-'+i).classList.add('completed'); } } } catch(e){} updateProgress(); }
+  function openFirstIncomplete() { for (let i = 1; i <= TOTAL; i++) { if (!document.getElementById('chk-'+i).checked) { document.getElementById('card-'+i).classList.add('open'); return; } } }
+  window.addEventListener('DOMContentLoaded', () => { loadState(); openFirstIncomplete(); });
+</script>
+</body>
+</html>

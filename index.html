@@ -1,716 +1,357 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Outlook Calendar Essentials – Training Module</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Microsoft 365 Training — Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --ms-blue: #0078d4;
-      --ms-dark: #1a1a2e;
-      --ms-light: #f3f8ff;
-      --ms-border: #d0e4f7;
-      --ms-green: #107c10;
-      --ms-green-light: #dff6dd;
-      --ms-accent: #e8f4fd;
-      --radius: 10px;
-      --shadow: 0 2px 10px rgba(0,120,212,0.10);
+      --ms-dark: #0a1628;
+      --ms-mid: #122040;
+      --accent: #00b7c3;
+      --gold: #ffb900;
+      --green: #107c10;
+      --text: #e8f0f8;
+      --muted: #7a96b8;
+      --card-bg: rgba(255,255,255,0.04);
+      --card-border: rgba(255,255,255,0.09);
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: #eef4fb;
-      color: #1a1a2e;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--ms-dark);
+      color: var(--text);
       min-height: 100vh;
     }
 
-    header {
-      background: linear-gradient(135deg, #0078d4 0%, #004e8c 100%);
-      color: white;
-      padding: 36px 40px 28px;
-      position: relative;
-      overflow: hidden;
+    /* ── NAV ── */
+    nav {
+      background: rgba(10,22,40,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,120,212,0.25);
+      position: sticky; top: 0; z-index: 100;
+      padding: 0 24px;
     }
-    header::after {
-      content: '';
-      position: absolute;
-      right: -60px; top: -60px;
-      width: 260px; height: 260px;
-      background: rgba(255,255,255,0.07);
-      border-radius: 50%;
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; gap: 8px;
+      height: 58px; overflow-x: auto; white-space: nowrap;
     }
-    header .module-badge {
-      display: inline-block;
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 20px;
-      padding: 4px 14px;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
+    .nav-inner::-webkit-scrollbar { height: 0; }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 0.95rem;
+      color: white; text-decoration: none;
+      margin-right: 12px; flex-shrink: 0;
+      letter-spacing: -0.02em;
     }
-    header h1 {
-      font-size: clamp(1.4rem, 3vw, 2rem);
-      font-weight: 700;
-      margin-bottom: 8px;
-      line-height: 1.2;
+    .nav-logo span { color: var(--accent); }
+    .nav-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 20px;
+      font-size: 0.78rem; font-weight: 600;
+      color: var(--muted); text-decoration: none;
+      transition: all 0.2s; flex-shrink: 0;
+      border: 1px solid transparent;
     }
-    header p {
-      font-size: 1rem;
-      opacity: 0.85;
-      max-width: 600px;
-    }
+    .nav-link:hover { color: white; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); }
+    .nav-link.active { color: white; background: rgba(0,120,212,0.2); border-color: rgba(0,120,212,0.4); }
+    .nav-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+    .nav-link.active .nav-dot, .nav-link:hover .nav-dot { background: var(--accent); }
 
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 32px 20px 60px;
-    }
-
-    /* Progress bar */
-    .progress-section {
-      background: white;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 22px 28px;
-      margin-bottom: 28px;
-      border: 1px solid var(--ms-border);
-    }
-    .progress-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    .progress-label { font-weight: 600; font-size: 0.95rem; color: #004e8c; }
-    .progress-pct {
-      font-weight: 700;
-      color: var(--ms-blue);
-      font-size: 1.1rem;
-    }
-    .progress-bar-outer {
-      background: #dbe8f5;
-      border-radius: 6px;
-      height: 12px;
-      width: 100%;
-      overflow: hidden;
-    }
-    .progress-bar-inner {
-      height: 100%;
-      background: linear-gradient(90deg, #0078d4, #00b7c3);
-      border-radius: 6px;
-      transition: width 0.4s ease;
-      width: 0%;
-    }
-    .progress-note { font-size: 0.82rem; color: #555; margin-top: 8px; }
-
-    /* Goals */
-    .goals-card {
-      background: var(--ms-accent);
-      border: 1px solid var(--ms-border);
-      border-left: 4px solid var(--ms-blue);
-      border-radius: var(--radius);
-      padding: 20px 24px;
-      margin-bottom: 28px;
-    }
-    .goals-card h2 { font-size: 0.9rem; font-weight: 700; color: #004e8c; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 12px; }
-    .goals-card ul { list-style: none; padding: 0; display: grid; gap: 8px; }
-    .goals-card li {
-      display: flex; align-items: flex-start; gap: 10px;
-      font-size: 0.93rem; color: #1a1a2e;
-    }
-    .goals-card li::before {
-      content: '✓';
-      color: var(--ms-blue);
-      font-weight: 700;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    /* Lesson cards */
-    .lesson-card {
-      background: white;
-      border: 1px solid var(--ms-border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      margin-bottom: 22px;
-      overflow: hidden;
-      transition: box-shadow 0.2s;
-    }
-    .lesson-card:hover { box-shadow: 0 4px 20px rgba(0,120,212,0.16); }
-    .lesson-card.completed { border-left: 4px solid var(--ms-green); }
-
-    .lesson-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 20px 24px 16px;
-      cursor: pointer;
-    }
-    .lesson-num {
-      background: var(--ms-blue);
-      color: white;
-      font-weight: 700;
-      font-size: 0.9rem;
-      min-width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .lesson-card.completed .lesson-num { background: var(--ms-green); }
-
-    .lesson-title-area { flex: 1; }
-    .lesson-time {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--ms-blue);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 2px;
-    }
-    .lesson-title { font-size: 1.05rem; font-weight: 700; color: #1a1a2e; }
-
-    .expand-icon {
-      font-size: 1.1rem;
-      color: var(--ms-blue);
-      transition: transform 0.25s;
-      flex-shrink: 0;
-    }
-    .lesson-card.open .expand-icon { transform: rotate(180deg); }
-
-    .lesson-body {
-      display: none;
-      padding: 0 24px 24px;
-    }
-    .lesson-card.open .lesson-body { display: block; }
-
-    .lesson-desc {
-      font-size: 0.9rem;
-      color: #444;
-      line-height: 1.6;
-      margin-bottom: 16px;
-      padding: 12px 14px;
-      background: #f7fbff;
-      border-radius: 6px;
-      border-left: 3px solid #bee0f8;
-    }
-
-    /* Key points */
-    .key-points { margin-bottom: 16px; }
-    .key-points h4 { font-size: 0.8rem; font-weight: 700; color: #004e8c; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
-    .key-points ul { list-style: none; padding: 0; display: grid; gap: 5px; }
-    .key-points li { font-size: 0.87rem; color: #333; padding-left: 16px; position: relative; }
-    .key-points li::before { content: '→'; position: absolute; left: 0; color: var(--ms-blue); }
-
-    /* Video embed */
-    .video-wrapper {
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      border-radius: 8px;
-      overflow: hidden;
-      background: #000;
-      margin-bottom: 16px;
-    }
-    .video-wrapper iframe {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      border: 0;
-    }
-    .video-meta {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.8rem;
-      color: #555;
-      margin-bottom: 14px;
-    }
-    .video-meta .source-badge {
-      background: #e6f3fb;
-      border: 1px solid #b3d6f0;
-      border-radius: 12px;
-      padding: 2px 10px;
-      font-weight: 600;
-      color: #0078d4;
-    }
-    .video-alt {
-      background: #fff8e6;
-      border: 1px solid #fde899;
-      border-radius: 6px;
-      padding: 10px 14px;
-      font-size: 0.83rem;
-      color: #7a5800;
-      margin-bottom: 14px;
-    }
-    .video-alt a { color: #0078d4; font-weight: 600; }
-
-    /* Checkbox */
-    .complete-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      background: #f5faf5;
-      border: 1px solid #c8e6c8;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .complete-row:hover { background: #e8f5e8; }
-    .complete-row.checked { background: var(--ms-green-light); border-color: #82c882; }
-    .complete-row input[type="checkbox"] {
-      width: 20px; height: 20px;
-      accent-color: var(--ms-green);
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-    .complete-row label {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #1a4a1a;
-      cursor: pointer;
-    }
-    .complete-row.checked label { color: var(--ms-green); }
-
-    /* Final wrap section */
-    .wrap-section {
-      background: white;
-      border: 1px solid var(--ms-border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      margin-bottom: 22px;
-      overflow: hidden;
-    }
-    .wrap-section .lesson-header { border-bottom: 1px solid #e8f0f8; }
-
-    /* All done banner */
-    #done-banner {
-      display: none;
-      background: linear-gradient(135deg, #107c10, #0e6e0e);
-      color: white;
-      border-radius: var(--radius);
-      padding: 24px 28px;
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #0a1628 0%, #0e2144 50%, #071530 100%);
+      padding: 72px 24px 56px;
+      position: relative; overflow: hidden;
       text-align: center;
-      margin-bottom: 24px;
-      box-shadow: 0 4px 18px rgba(16,124,16,0.25);
     }
-    #done-banner h3 { font-size: 1.3rem; margin-bottom: 6px; }
-    #done-banner p { opacity: 0.88; font-size: 0.95rem; }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(0,120,212,0.18) 0%, transparent 70%);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,183,195,0.12); border: 1px solid rgba(0,183,195,0.35);
+      border-radius: 20px; padding: 5px 16px;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
+      color: var(--accent); text-transform: uppercase; margin-bottom: 24px;
+      position: relative;
+    }
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 800; line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 18px; position: relative;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+    .hero p {
+      font-size: 1.05rem; color: var(--muted);
+      max-width: 560px; margin: 0 auto 36px;
+      line-height: 1.6; position: relative;
+    }
+    .hero-stats {
+      display: flex; justify-content: center; gap: 40px;
+      position: relative;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; color: white; }
+    .stat-label { font-size: 0.78rem; color: var(--muted); font-weight: 500; }
 
-    /* Responsive */
+    /* ── GRID ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 48px 20px 72px; }
+    .section-label {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 24px;
+    }
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    /* ── MODULE CARD ── */
+    .module-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 28px;
+      text-decoration: none;
+      color: var(--text);
+      display: block;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .module-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--card-accent, var(--ms-blue));
+      opacity: 0; transition: opacity 0.25s;
+    }
+    .module-card:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.16); transform: translateY(-2px); }
+    .module-card:hover::before { opacity: 1; }
+
+    .card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+    .card-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      background: rgba(255,255,255,0.06);
+      flex-shrink: 0;
+    }
+    .card-num {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+      color: var(--muted); text-transform: uppercase;
+    }
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem; font-weight: 700;
+      margin-bottom: 8px; line-height: 1.25;
+    }
+    .card-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.5; margin-bottom: 18px; }
+    .card-footer { display: flex; align-items: center; justify-content: space-between; }
+    .card-lessons { font-size: 0.78rem; color: var(--muted); font-weight: 500; }
+    .card-arrow { color: var(--ms-blue); font-size: 1.1rem; transition: transform 0.2s; }
+    .module-card:hover .card-arrow { transform: translateX(4px); }
+    .card-progress-bar { height: 3px; background: rgba(255,255,255,0.06); border-radius: 2px; margin-top: 14px; overflow: hidden; }
+    .card-progress-fill { height: 100%; background: var(--card-accent, var(--ms-blue)); width: 0%; transition: width 0.5s; border-radius: 2px; }
+
+    /* overall progress */
+    .overall-progress {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 14px; padding: 24px 28px; margin-bottom: 36px;
+    }
+    .op-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+    .op-label { font-weight: 600; font-size: 0.95rem; }
+    .op-pct { font-family: 'Syne', sans-serif; font-size: 1.1rem; color: var(--accent); }
+    .op-bar-outer { background: rgba(255,255,255,0.07); border-radius: 6px; height: 10px; overflow: hidden; }
+    .op-bar-inner { height: 100%; background: linear-gradient(90deg, var(--ms-blue), var(--accent)); border-radius: 6px; width: 0%; transition: width 0.5s; }
+    .op-note { font-size: 0.8rem; color: var(--muted); margin-top: 8px; }
+
     @media (max-width: 600px) {
-      header { padding: 24px 20px 20px; }
-      .container { padding: 20px 12px 48px; }
-      .lesson-header { padding: 16px 16px 12px; gap: 12px; }
-      .lesson-body { padding: 0 16px 18px; }
+      .hero { padding: 48px 20px 40px; }
+      .hero-stats { gap: 24px; }
+      .container { padding: 32px 16px 48px; }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="module-badge">📅 30-Minute Training Module</div>
-  <h1>Outlook Calendar Essentials</h1>
-  <p>Meetings, Scheduling, Updates & Calendar Sharing — with best-practice video lessons for each section.</p>
-</header>
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">M365 <span>Training</span></a>
+    <a href="index.html" class="nav-link active"><span class="nav-dot"></span>Home</a>
+    <a href="module1.html" class="nav-link"><span class="nav-dot"></span>1 · Outlook Email</a>
+    <a href="module2.html" class="nav-link"><span class="nav-dot"></span>2 · Excel</a>
+    <a href="module3.html" class="nav-link"><span class="nav-dot"></span>3 · Word</a>
+    <a href="module4.html" class="nav-link"><span class="nav-dot"></span>4 · PowerPoint</a>
+    <a href="module5.html" class="nav-link"><span class="nav-dot"></span>5 · M365 Sharing</a>
+    <a href="module6.html" class="nav-link"><span class="nav-dot"></span>6 · Calendar</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">📘 Self-Paced Learning</div>
+  <h1>Microsoft <em>365</em><br>Essentials Training</h1>
+  <p>Six practical modules covering Outlook, Excel, Word, PowerPoint, and file sharing — with video lessons and progress tracking.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">Modules</div></div>
+    <div class="stat"><div class="stat-num">30+</div><div class="stat-label">Video Lessons</div></div>
+    <div class="stat"><div class="stat-num">~4h</div><div class="stat-label">Total Time</div></div>
+  </div>
+</div>
 
 <div class="container">
 
-  <!-- Progress -->
-  <div class="progress-section">
-    <div class="progress-header">
-      <span class="progress-label">Your Progress</span>
-      <span class="progress-pct" id="pct-label">0%</span>
+  <div class="overall-progress">
+    <div class="op-header">
+      <span class="op-label">Overall Progress</span>
+      <span class="op-pct" id="op-pct">0%</span>
     </div>
-    <div class="progress-bar-outer">
-      <div class="progress-bar-inner" id="progress-bar"></div>
-    </div>
-    <p class="progress-note" id="progress-note">0 of 5 lessons completed — check off each section after watching the video.</p>
+    <div class="op-bar-outer"><div class="op-bar-inner" id="op-bar"></div></div>
+    <p class="op-note" id="op-note">0 of 6 modules started — click a module below to begin.</p>
   </div>
 
-  <!-- Done banner -->
-  <div id="done-banner">
-    <h3>🎉 Module Complete!</h3>
-    <p>You've finished all five lessons. Great work — your Outlook calendar skills are sharper than ever.</p>
+  <div class="section-label">All Modules</div>
+
+  <div class="modules-grid">
+
+    <a href="module1.html" class="module-card" id="mc1" style="--card-accent: #0078d4;">
+      <div class="card-top">
+        <div class="card-icon">📧</div>
+        <div class="card-num">Module 01</div>
+      </div>
+      <div class="card-title">Outlook Email, Search & Basics</div>
+      <div class="card-desc">Send clearer emails, find messages fast, use rules and flags, and master search filters.</div>
+      <div class="card-footer">
+        <span class="card-lessons">5 lessons · ~45 min</span>
+        <span class="card-arrow">→</span>
+      </div>
+      <div class="card-progress-bar"><div class="card-progress-fill" id="mp1"></div></div>
+    </a>
+
+    <a href="module2.html" class="module-card" id="mc2" style="--card-accent: #107c10;">
+      <div class="card-top">
+        <div class="card-icon">📊</div>
+        <div class="card-num">Module 02</div>
+      </div>
+      <div class="card-title">Excel Basics: Tables, Formulas & Filters</div>
+      <div class="card-desc">Build accurate spreadsheets with SUM, IF, sorting, filtering, and proper table structure.</div>
+      <div class="card-footer">
+        <span class="card-lessons">5 lessons · ~45 min</span>
+        <span class="card-arrow">→</span>
+      </div>
+      <div class="card-progress-bar"><div class="card-progress-fill" id="mp2"></div></div>
+    </a>
+
+    <a href="module3.html" class="module-card" id="mc3" style="--card-accent: #2b7de9;">
+      <div class="card-top">
+        <div class="card-icon">📝</div>
+        <div class="card-num">Module 03</div>
+      </div>
+      <div class="card-title">Word: Clean Docs & Collaboration</div>
+      <div class="card-desc">Create consistent documents using Styles, Track Changes, Comments, and OneDrive saving.</div>
+      <div class="card-footer">
+        <span class="card-lessons">5 lessons · ~40 min</span>
+        <span class="card-arrow">→</span>
+      </div>
+      <div class="card-progress-bar"><div class="card-progress-fill" id="mp3"></div></div>
+    </a>
+
+    <a href="module4.html" class="module-card" id="mc4" style="--card-accent: #e04b00;">
+      <div class="card-top">
+        <div class="card-icon">📑</div>
+        <div class="card-num">Module 04</div>
+      </div>
+      <div class="card-title">PowerPoint: Clean Slides That Communicate</div>
+      <div class="card-desc">Build slides that support — not overwhelm — your audience, with layouts, notes, and Presenter View.</div>
+      <div class="card-footer">
+        <span class="card-lessons">5 lessons · ~40 min</span>
+        <span class="card-arrow">→</span>
+      </div>
+      <div class="card-progress-bar"><div class="card-progress-fill" id="mp4"></div></div>
+    </a>
+
+    <a href="module5.html" class="module-card" id="mc5" style="--card-accent: #8764b8;">
+      <div class="card-top">
+        <div class="card-icon">🔗</div>
+        <div class="card-num">Module 05</div>
+      </div>
+      <div class="card-title">M365 Sharing: Files, Links & Permissions</div>
+      <div class="card-desc">Use OneDrive/SharePoint correctly — share with links not attachments, manage permissions confidently.</div>
+      <div class="card-footer">
+        <span class="card-lessons">5 lessons · ~35 min</span>
+        <span class="card-arrow">→</span>
+      </div>
+      <div class="card-progress-bar"><div class="card-progress-fill" id="mp5"></div></div>
+    </a>
+
+    <a href="module6.html" class="module-card" id="mc6" style="--card-accent: #00b7c3;">
+      <div class="card-top">
+        <div class="card-icon">📅</div>
+        <div class="card-num">Module 06</div>
+      </div>
+      <div class="card-title">Outlook Calendar Essentials</div>
+      <div class="card-desc">Create meetings correctly, avoid conflicts, update/cancel properly, and share your calendar with the right permissions.</div>
+      <div class="card-footer">
+        <span class="card-lessons">6 lessons · ~30 min</span>
+        <span class="card-arrow">→</span>
+      </div>
+      <div class="card-progress-bar"><div class="card-progress-fill" id="mp6"></div></div>
+    </a>
+
   </div>
-
-  <!-- Learning Goals -->
-  <div class="goals-card">
-    <h2>Learning Goals</h2>
-    <ul>
-      <li>Create and manage meeting invites correctly</li>
-      <li>Avoid conflicts using Scheduling Assistant / Find a Time</li>
-      <li>Update or cancel meetings the right way</li>
-      <li>Share your calendar with the right permission level</li>
-    </ul>
-  </div>
-
-  <!-- ===================== LESSON 1 ===================== -->
-  <div class="lesson-card" id="card-1">
-    <div class="lesson-header" onclick="toggleCard(1)">
-      <div class="lesson-num">1</div>
-      <div class="lesson-title-area">
-        <div class="lesson-time">0–3 min · Set the Why</div>
-        <div class="lesson-title">Why Calendar Habits Matter</div>
-      </div>
-      <div class="expand-icon">▼</div>
-    </div>
-    <div class="lesson-body">
-      <div class="lesson-desc">
-        Calendar errors and missed meeting etiquette cause real-world problems: missed coverage, scheduling confusion, and broken workflows. This short intro lesson explains why mastering Outlook Calendar is worth your time.
-      </div>
-      <div class="key-points">
-        <h4>What You'll Learn</h4>
-        <ul>
-          <li>How calendar errors affect team coverage and communication</li>
-          <li>The habits that prevent most scheduling problems</li>
-          <li>What to expect from this 30-minute module</li>
-        </ul>
-      </div>
-      <div class="video-wrapper">
-        <iframe
-          src="https://www.youtube.com/embed/4e_ghbyXcJ0?start=514"
-          title="Outlook Tutorial for Beginners – Calendar section – Kevin Stratvert"
-          allowfullscreen
-          loading="lazy">
-        </iframe>
-      </div>
-      <div class="video-meta">
-        <span class="source-badge">Kevin Stratvert (ex-Microsoft)</span>
-        <span>~8 min · Outlook for Beginners — Calendar section (starts at 8:34)</span>
-      </div>
-      <div class="video-alt">
-        💡 <strong>Can't see the video?</strong> Watch directly on YouTube:
-        <a href="https://www.youtube.com/watch?v=4e_ghbyXcJ0&t=514s" target="_blank" rel="noopener">Outlook Tutorial for Beginners — Kevin Stratvert (Calendar section)</a>
-      </div>
-      <div class="complete-row" id="row-1" onclick="toggleCheck(1)">
-        <input type="checkbox" id="chk-1" onchange="toggleCheck(1)">
-        <label for="chk-1">✅ I've watched this video and understand why good calendar habits matter</label>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===================== LESSON 2 ===================== -->
-  <div class="lesson-card" id="card-2">
-    <div class="lesson-header" onclick="toggleCard(2)">
-      <div class="lesson-num">2</div>
-      <div class="lesson-title-area">
-        <div class="lesson-time">3–9 min · Demo</div>
-        <div class="lesson-title">Create a Meeting Invite the Right Way</div>
-      </div>
-      <div class="expand-icon">▼</div>
-    </div>
-    <div class="lesson-body">
-      <div class="lesson-desc">
-        Learn the critical difference between an <strong>Appointment</strong> (just you) and a <strong>Meeting</strong> (invites others). Master the correct workflow: title, time, location/Teams link, agenda in the body, add attendees, and Send.
-      </div>
-      <div class="key-points">
-        <h4>Key Takeaways</h4>
-        <ul>
-          <li>Always use <em>New Meeting</em> (not New Appointment) when inviting others</li>
-          <li>Include a short agenda in the invite body — not just a title</li>
-          <li>Add required vs. optional attendees appropriately</li>
-          <li>Location field: physical room or "Microsoft Teams Meeting"</li>
-        </ul>
-      </div>
-      <div class="video-wrapper">
-        <iframe
-          src="https://www.youtube.com/embed/6BU_ELSsDLc?start=15"
-          title="Top 14 Outlook Calendar Tips – Creating Meetings – Kevin Stratvert"
-          allowfullscreen
-          loading="lazy">
-        </iframe>
-      </div>
-      <div class="video-meta">
-        <span class="source-badge">Kevin Stratvert (ex-Microsoft)</span>
-        <span>~14 min · Top 14 Outlook Calendar Tips & Tricks — meetings, invites & more</span>
-      </div>
-      <div class="video-alt">
-        💡 <strong>Can't see the video?</strong> Watch directly on YouTube:
-        <a href="https://www.youtube.com/watch?v=6BU_ELSsDLc&t=15s" target="_blank" rel="noopener">Top 14 Outlook Calendar Tips — Kevin Stratvert</a>
-      </div>
-      <div class="complete-row" id="row-2" onclick="toggleCheck(2)">
-        <input type="checkbox" id="chk-2" onchange="toggleCheck(2)">
-        <label for="chk-2">✅ I can create a meeting invite with attendees, agenda, and location</label>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===================== LESSON 3 ===================== -->
-  <div class="lesson-card" id="card-3">
-    <div class="lesson-header" onclick="toggleCard(3)">
-      <div class="lesson-num">3</div>
-      <div class="lesson-title-area">
-        <div class="lesson-time">9–14 min · Demo</div>
-        <div class="lesson-title">Avoid Conflicts with Scheduling Assistant / Find a Time</div>
-      </div>
-      <div class="expand-icon">▼</div>
-    </div>
-    <div class="lesson-body">
-      <div class="lesson-desc">
-        Use Outlook's built-in <strong>Scheduling Assistant</strong> (classic Outlook) or <strong>Find a Time</strong> (new Outlook) to view all attendees' calendars at once. Find a conflict-free slot and adjust meeting length when needed.
-      </div>
-      <div class="key-points">
-        <h4>Key Takeaways</h4>
-        <ul>
-          <li>Switch to Scheduling Assistant tab after adding attendees</li>
-          <li>Blue = your time blocked; other colors = others' conflicts</li>
-          <li>Use AutoPick / Suggested Times for the fastest conflict-free slot</li>
-          <li>Consider shortening the duration if schedules are tight</li>
-        </ul>
-      </div>
-      <div class="video-wrapper">
-        <iframe
-          src="https://www.youtube.com/embed/4e_ghbyXcJ0?start=750"
-          title="Outlook Scheduling & Meeting Invites – Kevin Stratvert"
-          allowfullscreen
-          loading="lazy">
-        </iframe>
-      </div>
-      <div class="video-meta">
-        <span class="source-badge">Kevin Stratvert (ex-Microsoft)</span>
-        <span>~7 min · Scheduling meetings & checking availability (starts at 12:30)</span>
-      </div>
-      <div class="video-alt">
-        💡 <strong>Can't see the video?</strong> Watch directly on YouTube:
-        <a href="https://www.youtube.com/watch?v=4e_ghbyXcJ0&t=750s" target="_blank" rel="noopener">Outlook Scheduling section — Kevin Stratvert</a>
-        &nbsp;|&nbsp; Also see:
-        <a href="https://support.microsoft.com/en-us/office/use-the-scheduling-assistant-and-room-finder-for-meetings-in-outlook-2e00ac07-cef1-47c8-9b99-77372434d3fa" target="_blank" rel="noopener">Microsoft Support: Scheduling Assistant</a>
-      </div>
-      <div class="complete-row" id="row-3" onclick="toggleCheck(3)">
-        <input type="checkbox" id="chk-3" onchange="toggleCheck(3)">
-        <label for="chk-3">✅ I can use Scheduling Assistant / Find a Time to pick a conflict-free slot</label>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===================== LESSON 4 ===================== -->
-  <div class="lesson-card" id="card-4">
-    <div class="lesson-header" onclick="toggleCard(4)">
-      <div class="lesson-num">4</div>
-      <div class="lesson-title-area">
-        <div class="lesson-time">14–18 min · Demo</div>
-        <div class="lesson-title">Updates, Cancellations & Responses</div>
-      </div>
-      <div class="expand-icon">▼</div>
-    </div>
-    <div class="lesson-body">
-      <div class="lesson-desc">
-        Things change — and how you handle it matters. Learn the correct steps to <strong>update</strong> an existing meeting (Edit → Send Update), <strong>cancel</strong> it properly (Cancel Meeting — never just Delete), and how to respond to invites with Accept, Tentative, or Decline with a note.
-      </div>
-      <div class="key-points">
-        <h4>Key Takeaways</h4>
-        <ul>
-          <li>Edit the meeting → click <em>Send Update</em> to notify all attendees</li>
-          <li>Always use <em>Cancel Meeting</em> — deleting silently removes it from your calendar only</li>
-          <li>When declining, add a brief note in your response</li>
-          <li>Accept, Tentative, or Decline options are all appropriate in different situations</li>
-        </ul>
-      </div>
-      <div class="video-wrapper">
-        <iframe
-          src="https://www.youtube.com/embed/4e_ghbyXcJ0?start=849"
-          title="Editing & Updating Meeting Invites in Outlook – Kevin Stratvert"
-          allowfullscreen
-          loading="lazy">
-        </iframe>
-      </div>
-      <div class="video-meta">
-        <span class="source-badge">Kevin Stratvert (ex-Microsoft)</span>
-        <span>~6 min · Editing meeting invites & sending updates (starts at 14:09)</span>
-      </div>
-      <div class="video-alt">
-        💡 <strong>Can't see the video?</strong> Watch directly on YouTube:
-        <a href="https://www.youtube.com/watch?v=4e_ghbyXcJ0&t=849s" target="_blank" rel="noopener">Editing Meeting Invites — Kevin Stratvert</a>
-        &nbsp;|&nbsp; Microsoft guide:
-        <a href="https://support.microsoft.com/en-us/office/schedule-a-meeting-or-event-in-outlook-5c9877bc-ab91-4a7c-99fb-b0b68d7ea94f" target="_blank" rel="noopener">Schedule & manage meetings</a>
-      </div>
-      <div class="complete-row" id="row-4" onclick="toggleCheck(4)">
-        <input type="checkbox" id="chk-4" onchange="toggleCheck(4)">
-        <label for="chk-4">✅ I know how to update, cancel, and respond to meeting invites correctly</label>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===================== LESSON 5 ===================== -->
-  <div class="lesson-card" id="card-5">
-    <div class="lesson-header" onclick="toggleCard(5)">
-      <div class="lesson-num">5</div>
-      <div class="lesson-title-area">
-        <div class="lesson-time">18–24 min · Demo</div>
-        <div class="lesson-title">Share Your Calendar — Permissions & Best Practices</div>
-      </div>
-      <div class="expand-icon">▼</div>
-    </div>
-    <div class="lesson-body">
-      <div class="lesson-desc">
-        Sharing your calendar reduces scheduling friction — but using the <em>wrong</em> permission level causes confusion and oversharing. Learn both sharing methods and when to use each permission level, from <strong>Free/Busy only</strong> up to <strong>Delegate</strong>.
-      </div>
-      <div class="key-points">
-        <h4>Permission Levels — Plain Language</h4>
-        <ul>
-          <li><strong>Free/Busy only</strong> — Best for most coworkers: they see when you're blocked, nothing else</li>
-          <li><strong>Limited details</strong> — Titles & locations visible; for close collaborators</li>
-          <li><strong>Can view all details (Reviewer)</strong> — Full visibility; use for supervisors thoughtfully</li>
-          <li><strong>Can edit (Editor)</strong> — Rare; only for someone who genuinely manages your calendar</li>
-          <li><strong>Delegate</strong> — High trust only; they can send/accept invites on your behalf</li>
-        </ul>
-        <h4 style="margin-top:12px;">Two Quick Rules</h4>
-        <ul>
-          <li>Rule 1: Start with the <em>lowest</em> permission that solves the need</li>
-          <li>Rule 2: If they just need to schedule you, Free/Busy is almost always enough</li>
-        </ul>
-      </div>
-      <div class="video-wrapper">
-        <iframe
-          src="https://www.youtube.com/embed/edABo0VnHK8?start=130"
-          title="Outlook Tips – Calendar Sharing & Permissions – Kevin Stratvert"
-          allowfullscreen
-          loading="lazy">
-        </iframe>
-      </div>
-      <div class="video-meta">
-        <span class="source-badge">Kevin Stratvert (ex-Microsoft)</span>
-        <span>~10 min · Top 20 Outlook Tips — includes calendar sharing & scheduling poll</span>
-      </div>
-      <div class="video-alt">
-        💡 <strong>Can't see the video?</strong> Watch directly on YouTube:
-        <a href="https://www.youtube.com/watch?v=edABo0VnHK8&t=130s" target="_blank" rel="noopener">Top 20 Outlook Tips — Kevin Stratvert</a>
-        &nbsp;|&nbsp; Microsoft guide:
-        <a href="https://support.microsoft.com/en-us/office/share-an-outlook-calendar-with-other-people-353ed2c1-3ec5-449d-8c73-6931a0adab88" target="_blank" rel="noopener">Share an Outlook Calendar</a>
-      </div>
-      <div class="complete-row" id="row-5" onclick="toggleCheck(5)">
-        <input type="checkbox" id="chk-5" onchange="toggleCheck(5)">
-        <label for="chk-5">✅ I can share my calendar at the right permission level and explain each option</label>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===================== WRAP / KNOWLEDGE CHECK ===================== -->
-  <div class="wrap-section lesson-card" id="card-6">
-    <div class="lesson-header" onclick="toggleCard(6)" style="background:#f7fbff;">
-      <div class="lesson-num" style="background:#6c5ce7;">✓</div>
-      <div class="lesson-title-area">
-        <div class="lesson-time">28–30 min · Wrap-Up</div>
-        <div class="lesson-title">Quick Knowledge Check</div>
-      </div>
-      <div class="expand-icon" style="color:#6c5ce7;">▼</div>
-    </div>
-    <div class="lesson-body">
-      <div class="lesson-desc">
-        Before you go, test yourself with these three verbal questions from your trainer. If you can answer them confidently, you're ready to apply these skills on the job.
-      </div>
-      <div style="display:grid; gap:14px; margin-bottom:18px;">
-        <div style="background:#f0eeff; border:1px solid #c9b8f7; border-radius:8px; padding:14px 18px;">
-          <p style="font-weight:700; color:#4b3da0; margin-bottom:4px;">Question 1</p>
-          <p style="font-size:0.93rem;">What is the difference between a <em>Meeting</em> and an <em>Appointment</em> in Outlook?</p>
-        </div>
-        <div style="background:#f0eeff; border:1px solid #c9b8f7; border-radius:8px; padding:14px 18px;">
-          <p style="font-weight:700; color:#4b3da0; margin-bottom:4px;">Question 2</p>
-          <p style="font-size:0.93rem;">What is the correct way to cancel a meeting you created — and what should you <em>not</em> do?</p>
-        </div>
-        <div style="background:#f0eeff; border:1px solid #c9b8f7; border-radius:8px; padding:14px 18px;">
-          <p style="font-weight:700; color:#4b3da0; margin-bottom:4px;">Question 3</p>
-          <p style="font-size:0.93rem;">What calendar permission level is usually best for coworkers who just need to schedule time with you?</p>
-        </div>
-      </div>
-      <div class="complete-row" id="row-6" onclick="toggleCheck(6)">
-        <input type="checkbox" id="chk-6" onchange="toggleCheck(6)">
-        <label for="chk-6">✅ I can answer all three knowledge check questions confidently</label>
-      </div>
-    </div>
-  </div>
-
-  <p style="text-align:center; font-size:0.8rem; color:#888; margin-top:16px;">
-    Videos sourced from Microsoft-affiliated creators and trusted Microsoft 365 educators. Links open on YouTube.
-  </p>
-
 </div>
 
 <script>
-  const TOTAL = 6;
+  const MODULES = {
+    'm1': { total: 5, fill: 'mp1' },
+    'm2': { total: 5, fill: 'mp2' },
+    'm3': { total: 5, fill: 'mp3' },
+    'm4': { total: 5, fill: 'mp4' },
+    'm5': { total: 5, fill: 'mp5' },
+    'm6': { total: 6, fill: 'mp6' },
+  };
 
-  function toggleCard(n) {
-    const card = document.getElementById('card-' + n);
-    card.classList.toggle('open');
-  }
+  function loadOverallProgress() {
+    let completedModules = 0;
+    let totalItems = 0, completedItems = 0;
 
-  function toggleCheck(n) {
-    const chk = document.getElementById('chk-' + n);
-    const row = document.getElementById('row-' + n);
-    const card = document.getElementById('card-' + n);
-
-    // If called from the row div (not the checkbox itself), toggle the checkbox
-    if (event.target !== chk) {
-      chk.checked = !chk.checked;
-    }
-
-    row.classList.toggle('checked', chk.checked);
-    card.classList.toggle('completed', chk.checked);
-
-    updateProgress();
-    saveState();
-  }
-
-  function updateProgress() {
-    let count = 0;
-    for (let i = 1; i <= TOTAL; i++) {
-      if (document.getElementById('chk-' + i).checked) count++;
-    }
-    const pct = Math.round((count / TOTAL) * 100);
-    document.getElementById('progress-bar').style.width = pct + '%';
-    document.getElementById('pct-label').textContent = pct + '%';
-    document.getElementById('progress-note').textContent =
-      count + ' of ' + TOTAL + ' sections completed' +
-      (count === TOTAL ? ' — module complete! 🎉' : ' — keep going!');
-    document.getElementById('done-banner').style.display = count === TOTAL ? 'block' : 'none';
-  }
-
-  function saveState() {
-    const state = {};
-    for (let i = 1; i <= TOTAL; i++) {
-      state['chk-' + i] = document.getElementById('chk-' + i).checked;
-    }
-    try { localStorage.setItem('outlook-cal-training', JSON.stringify(state)); } catch(e) {}
-  }
-
-  function loadState() {
-    try {
-      const raw = localStorage.getItem('outlook-cal-training');
-      if (!raw) return;
-      const state = JSON.parse(raw);
-      for (let i = 1; i <= TOTAL; i++) {
-        const key = 'chk-' + i;
-        if (state[key]) {
-          document.getElementById(key).checked = true;
-          document.getElementById('row-' + i).classList.add('checked');
-          document.getElementById('card-' + i).classList.add('completed');
-        }
+    for (const [modKey, mod] of Object.entries(MODULES)) {
+      let modDone = 0;
+      for (let i = 1; i <= mod.total; i++) {
+        try {
+          const raw = localStorage.getItem(`${modKey}-training`);
+          if (raw) {
+            const state = JSON.parse(raw);
+            if (state[`chk-${i}`]) modDone++;
+          }
+        } catch(e){}
+        totalItems++;
       }
-    } catch(e) {}
-    updateProgress();
-  }
+      completedItems += modDone;
+      if (modDone === mod.total) completedModules++;
 
-  // Open first incomplete card on load
-  function openFirstIncomplete() {
-    for (let i = 1; i <= TOTAL; i++) {
-      if (!document.getElementById('chk-' + i).checked) {
-        document.getElementById('card-' + i).classList.add('open');
-        return;
-      }
+      const pct = mod.total > 0 ? Math.round((modDone / mod.total) * 100) : 0;
+      const fill = document.getElementById(mod.fill);
+      if (fill) fill.style.width = pct + '%';
     }
+
+    const overallPct = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+    document.getElementById('op-bar').style.width = overallPct + '%';
+    document.getElementById('op-pct').textContent = overallPct + '%';
+    document.getElementById('op-note').textContent =
+      completedModules + ' of 6 modules complete — ' + completedItems + ' of ' + totalItems + ' total lessons checked off.';
   }
 
-  window.addEventListener('DOMContentLoaded', () => {
-    loadState();
-    openFirstIncomplete();
-  });
+  window.addEventListener('DOMContentLoaded', loadOverallProgress);
 </script>
 </body>
 </html>
